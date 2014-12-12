@@ -1,0 +1,74 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+
+//the essential inputs and useful arrays----------------------------------------------------------
+char in[100005];
+char ans[100005];
+int size;
+int len;
+
+//function to display the permutation results------------------------------------------------------
+void display(int size,char res[100005])
+{
+  for(int i=0;i<=size;i++)
+   printf("%c",res[i]);
+  printf("\n");
+}
+
+//function to swap the  objects at the two given indexes----------------------------------------------
+void swap(int ind1,int ind2)
+{
+  char temp=in[ind1];
+  in[ind1]=in[ind2];
+  in[ind2]=temp;
+}
+
+
+//Naive Method to print all the permutations of a string ---------------------------------------------- 2^n time complexity
+void permute_naive(bool used[100005],int ind)
+{
+  if(ind<0)
+  display(len-1,ans);
+  
+  else
+  {
+      for(int i=len-1;i>=0;i--)
+      { if(used[i]==0)
+        { ans[ind]=in[i]; 
+          used[i]=1;
+          permute_naive(used,ind-1);
+          used[i]=0;
+        }
+      }
+  }
+}
+
+//String Permutations using backtracking------------------------------------------------------------- n! time complexity
+void permute_btr(int ind)
+{
+  if(ind==0)
+   display(len-1,in);
+  
+ else
+  {
+    for(int i=ind;i>=0;i--)
+     { swap(ind,i);
+       permute_btr(ind-1);
+       swap(ind,i);
+     }
+  }
+
+}
+
+int main()
+{
+  scanf("%s",in);
+  bool used[100005]={0};
+  len=strlen(in);
+  printf("**************************************NAIVE APPROACH*******************************************%d\n",len);
+  permute_naive(used,len-1);
+ // printf("**************************************BACKTRACKING APPROACH******************************\n");
+  //permute_btr(len-1);
+  return 0;
+}
